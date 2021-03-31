@@ -1,0 +1,114 @@
+{%extends 'index.html'%}
+{%block contant%}
+{% if messages %}
+{%load static%}
+<div class="alert alert-primary" role="alert">
+    {%for x in messages%}
+    {{x}}
+    {%endfor%}
+</div>
+
+{% endif %}
+<div class="card">
+    <form action="{%url 'partpayment'%}" method="post">
+        {%csrf_token%}
+    <div class="card-header">
+        <input type="text" class="form-control" name="search" >
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+    </div>
+        </form>
+    </div>
+
+{%for x in call%}
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Part Payment</h4>
+    </div>
+    <div class="card-body">
+        <div class="basic-form">
+            <form action="{%url 'partpaymentsave'%}" method="post">
+                {%csrf_token%}
+                <div class="row">
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Invoice Number</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="Innumber" value="{{x.Invoice_no}}">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Invoice Date</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="idate" value="{{x.Invoice_date|date:'Y-m-d'}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Delivery Date</label>
+                        <div class="col-sm-9">
+                            <input type="Date" class="form-control" name="Ddate" value="{{x.Delivery_Date|date:'Y-m-d'}}">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Client Name</label>
+                        <div class="col-sm-9">
+                            <select name="cname" id="cars" class="form-control">
+                                <option value="{{x.Client_Name.id}}">{{x.Client_Name.name}}</option>
+                                {%for x in client%}
+                                <option value="{{x.id}}">{{x.name}} {{x.Client_Name}}</option>
+
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Producer Name</label>
+                        <div class="col-sm-9">
+                            <select name="pname" id="carss" class="form-control">
+                                <option value="{{x.Producer_Name.id}}">{{x.Producer_Name.name}}</option>
+                                {%for x in producer%}
+                                <option value="{{x.id}}">{{x.name}}</option>
+
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Amount</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="amount" value="{{x.Amount}}">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Collection date</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="codate" value="{{x.Collection_date|date:'Y-m-d'}}">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Received Amount</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="ramount">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="buttonmy">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endfor%}
+
+
+
+
+
+
+{%endblock%}

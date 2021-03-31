@@ -1,0 +1,82 @@
+{%extends 'index.html'%}
+{%block contant%}
+{%load static%}
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'Entry'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Entry</h5>
+                </div>
+
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/journal.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'partpayment'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Part Payment</h5>
+                </div>
+
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/journal.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'Crep'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Client Wise Report</h5>
+                </div>
+
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/images.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'prep'%}">
+                <div class="card-header">
+                    <h5 class="card-title"> Producer Wise Report </h5>
+                </div>
+
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/producer.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'CollectionReport'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Collection Report </h5>
+                </div>
+
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/colle.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'DuesReport'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Deus Report </h5>
+                </div>
+
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/dues.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+{%endblock%}

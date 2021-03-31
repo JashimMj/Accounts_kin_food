@@ -1,0 +1,58 @@
+{%extends 'index.html'%}
+{%block contant%}
+
+{%load static%}
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Producer Information</h4>
+    </div>
+    <div class="card-body">
+        <div class="basic-form">
+            <form action="{%url 'preport'%}" method="post" target="_blank">
+                {%csrf_token%}
+                <div class="row">
+                <div class="form-group row col-sm-4">
+                    <label class="col-sm-3 col-form-label">Invoice Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" name="idate" required>
+                    </div>
+                </div>
+                <div class="form-group row col-sm-4">
+                    <label class="col-sm-3 col-form-label">Invoice Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" name="edate" required>
+                    </div>
+                </div>
+
+
+                <div class="form-group row col-sm-4">
+                    <label class="col-sm-3 col-form-label">Producer Name</label>
+                    <div class="col-sm-9">
+                        <select name="cname" id="cars" class="form-control">
+                            {%for x in producer%}
+                            <option value="{{x.id}}" required>{{x.name}}</option>
+
+                            {%endfor%}
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        <div class="buttonmy">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+
+        </form>
+    </div>
+</div>
+</div>
+
+
+
+
+{%endblock%}

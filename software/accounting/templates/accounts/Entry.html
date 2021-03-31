@@ -1,0 +1,159 @@
+{%extends 'index.html'%}
+{%block contant%}
+{% if messages %}
+{%load static%}
+<div class="alert alert-primary" role="alert">
+    {%for x in messages%}
+    {{x}}
+    {%endfor%}
+</div>
+
+{% endif %}
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Entry Information</h4>
+    </div>
+    <div class="card-body">
+        <div class="basic-form">
+            <form action="{%url 'Entrysave'%}" method="post">
+                {%csrf_token%}
+                <div class="row">
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Invoice Number</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="Innumber">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Invoice Date</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="idate">
+                        </div>
+                    </div>
+
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Delivery Date</label>
+                        <div class="col-sm-9">
+                            <input type="Date" class="form-control" name="Ddate">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Client Name</label>
+                        <div class="col-sm-9">
+                            <select name="cname" id="cars" class="form-control">
+                                {%for x in client%}
+                                <option value="{{x.id}}">{{x.name}}</option>
+
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Producer Name</label>
+                        <div class="col-sm-9">
+                            <select name="pname" id="carss" class="form-control">
+                                {%for x in producer%}
+                                <option value="{{x.id}}">{{x.name}}</option>
+
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Amount</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="amount">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Collection date</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="codate">
+                        </div>
+                    </div>
+                    <div class="form-group row col-sm-12">
+                        <label class="col-sm-3 col-form-label">Received Amount</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="ramount">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="buttonmy">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Client information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-responsive-md">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:80px;"><strong>#</strong></th>
+                                                <th><strong>Invoice number</strong></th>
+                                                <th><strong>Invoice Date</strong></th>
+                                                <th><strong>Delivery Date</strong></th>
+                                                <th><strong>Client Name</strong></th>
+                                                <th><strong>Client Address</strong></th>
+                                                <th><strong>Client Mobile Number</strong></th>
+                                                <th><strong>Producer Name</strong></th>
+                                                <th><strong>Amount</strong></th>
+                                                <th><strong>Collection Date</strong></th>
+                                                <th><strong>Received Amount</strong></th>
+
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {%for x in entry%}
+                                            <tr>
+                                                <td><strong>{{forloop.counter}}</strong></td>
+                                                <td>{{x.Invoice_no}}</td>
+                                                <td>{{x.Invoice_date}}</td>
+                                                <td>{{x.Delivery_Date}}</td>
+                                                <td>{{x.Client_Name.name}}</td>
+                                                <td>{{x.Client_Name.address}}</td>
+                                                <td>{{x.Client_Name.phone}}</td>
+                                                <td>{{x.Producer_Name.phone}}</td>
+                                                <td>{{x.Amount}}</td>
+                                                <td>{{x.Collection_date}}</td>
+                                                <td>{{x.Received_Amount}}</td>
+                                                <td>
+													<div class="dropdown">
+														<button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+															<svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
+														</button>
+														<div class="dropdown-menu">
+															<a class="dropdown-item" href="{%url 'Entryedit' x.id%}">Edit</a>
+															<a class="dropdown-item" href="{%url 'Entrydelete' x.id%}">Delete</a>
+														</div>
+													</div>
+												</td>
+                                            </tr>
+											{%endfor%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+
+
+
+{%endblock%}

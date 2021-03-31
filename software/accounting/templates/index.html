@@ -1,0 +1,150 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {%for x in company%}
+    <title>{{x.name}}</title>
+    {%endfor%}
+    <!-- Favicon icon -->
+    {%for x in company%}
+    <link rel="icon" type="image/png" sizes="16x16" href="{{x.companylogo}}">
+    {%endfor%}
+    <link href="{% static 'template/vendor/jqvmap/css/jqvmap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'template/vendor/chartist/css/chartist.min.css' %}">
+    <link href="{% static 'template/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+    <link href="{% static 'template/css/style.css' %}" rel="stylesheet">
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--    MY style-->
+    <link href="{% static 'my.css' %}" rel="stylesheet">
+
+</head>
+<body>
+<!--*******************
+    Preloader start
+********************-->
+<div id="preloader">
+    <div class="sk-three-bounce">
+        <div class="sk-child sk-bounce1"></div>
+        <div class="sk-child sk-bounce2"></div>
+        <div class="sk-child sk-bounce3"></div>
+    </div>
+</div>
+<!--*******************
+    Preloader end
+********************-->
+
+
+<!--**********************************
+    Main wrapper start
+***********************************-->
+<div id="main-wrapper">
+
+
+ <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="{%url 'dashboard'%}" class="brand-logo">
+                {%for x in company%}
+                <img class="logo-abbr" src="{{x.companylogo}}" alt="name">
+                <img class="logo-compact" src="{{x.companylogo}}" alt="">
+                <img class="brand-title" src="{{x.companylogo}}" alt="">
+                {%endfor%}
+            </a>
+
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+ <!--**********************************
+            Sidebar start
+        ***********************************-->
+	{%include 'sidedis.html'%}
+ <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+
+   <!--**********************************
+            Header start
+        ***********************************-->
+        {%include 'top.html'%}
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+<!--**********************************
+            Sidebar start
+        ***********************************-->
+        {%include 'sidebar.html'%}
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+		<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+                {%block contant%}
+
+
+
+
+				{%endblock%}
+
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+ <!--**********************************
+            Footer start
+        ***********************************-->
+        {%include 'footer.html'%}
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+
+
+
+
+
+ </div>
+
+
+<script src="{% static 'template/vendor/global/global.min.js' %}"></script>
+<script src="{% static 'template/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'template/vendor/chart.js/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'template/js/custom.min.js' %}"></script>
+<script src="{% static 'template/js/deznav-init.js' %}"></script>
+<!-- Apex Chart -->
+<script src="{% static 'template/vendor/apexchart/apexchart.js' %}"></script>
+
+<!-- Vectormap -->
+<!-- Chart piety plugin files -->
+<script src="{% static 'template/vendor/peity/jquery.peity.min.js' %}"></script>
+
+<!-- Chartist -->
+<script src="{% static 'template/vendor/chartist/js/chartist.min.js' %}"></script>
+
+<!-- Dashboard 1 -->
+<script src="{% static 'template/js/dashboard/dashboard-1.js' %}"></script>
+<!-- Svganimation scripts -->
+<script src="{% static 'template/vendor/svganimation/vivus.min.js' %}"></script>
+<script src="{% static 'template/vendor/svganimation/svg.animation.js' %}"></script>
+
+</body>
+</html>

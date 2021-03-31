@@ -1,0 +1,37 @@
+{%extends 'index.html'%}
+{%block contant%}
+{%load static%}
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'adminDashboard'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Software Admin</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">The ongoing management of software applications in an enterprise, which includes the distribution of new software and upgrading of existing software.</p>
+                </div>
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/admin.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'accounts'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Accounts</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Accounting is the recording of financial transactions along with storing,
+                        sorting, retrieving, summarizing, and presenting the results in various reports and
+                        analyses.</p>
+                </div>
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/dashboard.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{%endblock%}

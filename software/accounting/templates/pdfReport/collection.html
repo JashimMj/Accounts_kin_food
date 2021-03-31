@@ -1,0 +1,121 @@
+{%load static%}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {%for x in company%}
+    <title>{{x.name}}</title>
+    {%endfor%}
+    <!-- Favicon icon -->
+    {%for x in company%}
+    <link rel="icon" type="image/png" sizes="16x16" href="{{x.companylogo}}">
+    {%endfor%}
+    <link href="{% static 'template/vendor/jqvmap/css/jqvmap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'template/vendor/chartist/css/chartist.min.css' %}">
+    <link href="{% static 'template/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+    <link href="{% static 'template/css/style.css' %}" rel="stylesheet">
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--    MY style-->
+    <link href="{% static 'my.css' %}" rel="stylesheet">
+
+    <style>
+
+body{
+text-align:center;
+}
+table, th, td {
+padding:2px;
+  border: 1px solid black;}
+
+    </style>
+
+</head>
+<body>
+{%load static%}
+<div class="row">
+    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                {%for x in company%}
+                                <h4 class="card-title">{{x.name}}</h4>
+                                {%endfor%}
+                                <h4 class="card-title">Collection Information</h4>
+                                <h5>Date From:{{invoice_date}} To: {{invoice_edate}} </h5>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-responsive-md">
+                                        <thead>
+                                            <tr class="pdfreport">
+                                                <th style="width:80px;"><strong>#</strong></th>
+                                                <th><strong>Invoice number</strong></th>
+                                                <th><strong>Invoice Date</strong></th>
+                                                <th><strong>Delivery Date</strong></th>
+                                                <th><strong>Client Name</strong></th>
+                                                <th><strong>Client Address</strong></th>
+                                                <th><strong>Client Mobile Number</strong></th>
+                                                <th><strong>Producer Name</strong></th>
+                                                <th><strong>Amount</strong></th>
+                                                <th><strong>Collection Date</strong></th>
+                                                <th><strong>Received Amount</strong></th>
+                                                <th><strong>Total Collection</strong></th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {%for x in entry%}
+                                            <tr>
+                                                <td><strong>{{forloop.counter}}</strong></td>
+                                                <td>{{x.Invoice_no}}</td>
+                                                <td>{{x.Invoice_date}}</td>
+                                                <td>{{x.Delivery_Date}}</td>
+                                                <td>{{x.Client_Name.name}}</td>
+                                                <td>{{x.Client_Name.address}}</td>
+                                                <td>{{x.Client_Name.phone}}</td>
+                                                <td>{{x.Producer_Name.name}}</td>
+                                                <td>{{x.Amount|intcomma}}</td>
+                                                <td>{{x.Collection_date}}</td>
+                                                <td>{{x.Received_Amount|intcomma}}</td>
+                                                <td>{{x.Total_Collection|intcomma}}</td>
+
+                                            </tr>
+											{%endfor%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+
+<script src="{% static 'template/vendor/global/global.min.js' %}"></script>
+<script src="{% static 'template/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'template/vendor/chart.js/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'template/js/custom.min.js' %}"></script>
+<script src="{% static 'template/js/deznav-init.js' %}"></script>
+<!-- Apex Chart -->
+<script src="{% static 'template/vendor/apexchart/apexchart.js' %}"></script>
+
+<!-- Vectormap -->
+<!-- Chart piety plugin files -->
+<script src="{% static 'template/vendor/peity/jquery.peity.min.js' %}"></script>
+
+<!-- Chartist -->
+<script src="{% static 'template/vendor/chartist/js/chartist.min.js' %}"></script>
+
+<!-- Dashboard 1 -->
+<script src="{% static 'template/js/dashboard/dashboard-1.js' %}"></script>
+<!-- Svganimation scripts -->
+<script src="{% static 'template/vendor/svganimation/vivus.min.js' %}"></script>
+<script src="{% static 'template/vendor/svganimation/svg.animation.js' %}"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,64 @@
+{%extends 'index.html'%}
+{%block contant%}
+{%load static%}
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'companyinfo'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Company Information</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Company is a legal entity formed by a group of individuals to engage in and operate a business—commercial or industrial—enterprise.</p>
+                </div>
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/company.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'clientinfo'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Client Information</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Company is a legal entity formed by a group of individuals to engage in and operate a business—commercial or industrial—enterprise.</p>
+                </div>
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/download.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'Producerinfo'%}">
+                <div class="card-header">
+                    <h5 class="card-title">Producer Information</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Company is a legal entity formed by a group of individuals to engage in and operate a business—commercial or industrial—enterprise.</p>
+                </div>
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/Data-Entry-Jobs.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-3">
+            <a href="{%url 'Singup'%}">
+                <div class="card-header">
+                    <h5 class="card-title">User Create</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Company is a legal entity formed by a group of individuals to engage in and operate a business—commercial or industrial—enterprise.</p>
+                </div>
+                <img class="card-img-bottom img-fluid" src="{% static 'imageD/admin.jpg' %}" alt="Card image cap">
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+{%endblock%}
