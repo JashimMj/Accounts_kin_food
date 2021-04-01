@@ -450,7 +450,9 @@ def DuesReportV(request):
 @login_required(login_url="/Loging/")
 def DuesV(request):
     invoice_date = request.POST.get('idate')
+    a=datetime.datetime.strptime(invoice_date, '%Y-%m-%d')
     invoice_edate = request.POST.get('edate')
+    b=datetime.datetime.strptime(invoice_edate, '%Y-%m-%d')
     company = CompanyInfoM.objects.all()
     entry = entryinfo.objects.raw(
         'select a.id,a.Invoice_no as Invoice_no,a.Invoice_date as Invoice_date,a.Delivery_Date as Delivery_Date,a.Collection_date as Collection_date,a.Client_Name_id as Client_Name_id,a.Producer_Name_id as Producer_Name_id, x.amount as Amount,a.Received_Amount as Received_Amount,x.Received_Amount as Total_Collection,x.Total_dues as Total_dues from'
@@ -460,7 +462,7 @@ def DuesV(request):
         'left join '
         '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(Amount)-sum(Received_Amount) as Total_dues  from accounting_entryinfo '
         'group by Invoice_no) x '
-        'on a.Invoice_no =x.Invoice_no', [invoice_date, invoice_edate])
+        'on a.Invoice_no =x.Invoice_no', [a, b])
     template_path = 'pdfReport/Duesreport.html'
     context = {'entry': entry, 'invoice_date': invoice_date, 'invoice_edate': invoice_edate,'company':company}
     response = HttpResponse(content_type='application/pdf')
@@ -532,7 +534,9 @@ def SingupV(request):
 def partpayment(request):
     if request.method=='POST':
         inv=request.POST.get('search')
-        call=entryinfo.objects.filter(Invoice_no=inv)
+        call=entryinfo.objects.raw('SELECT DISTINCT id,* from accounting_entryinfo'
+                                    ' WHERE Invoice_no = %s '
+                                    'group by Invoice_no',[inv])
         return render(request,'accounts/partpayment.html',{'call':call})
     return render(request, 'accounts/partpayment.html')
 
@@ -568,8 +572,24 @@ def paymentsave(request):
     return redirect('/part/payment/')
 
 
-
-
-
-
-
+# from django.http import HttpResponse
+# from django.views.generic import View
+#
+# from .utils import render_to_pdf #created in step 4
+#
+# class GeneratePdf(View):
+#     def get(self, request, *args, **kwargs):
+#         data = {
+#              'today': datetime.date.today(),
+#              'amount': 39.99,
+#             'customer_name': 'Cooper Mann',
+#             'order_id': 1233434,
+#         }
+#         pdf = render_to_pdf('pdf/invoice.html', data)
+#         return HttpResponse(pdf, content_type='application/pdf')
+#
+#
+#
+#
+#
+#
