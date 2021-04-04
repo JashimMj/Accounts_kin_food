@@ -340,8 +340,8 @@ def CreportV(request):
     b = datetime.datetime.strptime(invoice_edate, '%Y-%m-%d')
     company=CompanyInfoM.objects.all()
 
-    entry = entryinfo.objects.raw('select id,Invoice_no from accounting_entryinfo where Invoice_date between %s  and %s and Client_Name_id=%s',[invoice_date,invoice_edate,client])
-    entrysum = entryinfo.objects.raw('select id,Invoice_no,sum(amount) as amount,sum(Received_Amount) as ra from accounting_entryinfo where Invoice_date between %s  and %s and Client_Name_id=%s',[invoice_date,invoice_edate,client])
+    entry = entryinfo.objects.raw('select id,Invoice_no,(amount-Received_Amount) as dues from accounting_entryinfo where Invoice_date between %s  and %s and Client_Name_id=%s',[invoice_date,invoice_edate,client])
+    entrysum = entryinfo.objects.raw('select id,Invoice_no,sum(amount) as amount,sum(Received_Amount) as ra, sum(amount-Received_Amount) as due from accounting_entryinfo where Invoice_date between %s  and %s and Client_Name_id=%s',[invoice_date,invoice_edate,client])
     template_path = 'pdfReport/ClientWisereport.html'
     context = {'entry': entry,'invoice_date':invoice_date,'invoice_edate':invoice_edate,'entrysum':entrysum,'company':company}
     response = HttpResponse(content_type='application/pdf')

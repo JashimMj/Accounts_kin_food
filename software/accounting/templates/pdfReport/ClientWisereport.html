@@ -64,6 +64,7 @@ padding:2px;
                                                 <th><strong>Amount</strong></th>
                                                 <th><strong>Collection Date</strong></th>
                                                 <th><strong>Received Amount</strong></th>
+                                                <th><strong>Dues Amount</strong></th>
 
                                             </tr>
                                         {%for x in entry%}
@@ -79,6 +80,7 @@ padding:2px;
                                                 <td>{{x.Amount|intcomma}}</td>
                                                 <td>{{x.Collection_date}}</td>
                                                 <td>{{x.Received_Amount|intcomma }}</td>
+                                                <td>{{x.dues|intcomma }}</td>
 
                                             </tr>
                                         {%endfor%}
@@ -88,6 +90,7 @@ padding:2px;
                                             <td>{{x.amount|intcomma}}</td>
                                             <td> -</td>
                                             <td>{{x.ra|intcomma}}</td>
+                                            <td>{{x.due|intcomma}}</td>
                                         </tr>
                                         {%endfor%}
 

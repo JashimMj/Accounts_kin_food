@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,8 +24,10 @@ SECRET_KEY = 'b%$7)whzjeepzz_1_hvwaq*&ut(-zfbpygev6g(#j(t@4l2074'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['*','43.229.208.190:8080','192.168.100.20:8080']
+if not DEBUG:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -131,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = "accounting/static"
+STATIC_ROOT = os.path.join(BASE_DIR,"accounting/static")
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "accounting/media"
+MEDIA_ROOT = os.path.join(BASE_DIR,"accounting/media")
