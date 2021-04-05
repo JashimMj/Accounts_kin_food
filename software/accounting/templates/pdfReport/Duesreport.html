@@ -92,6 +92,18 @@ padding:2px;
                                             </tr>
 											{%endfor%}
                                         </tbody>
+                                        {%for x in totaldues%}
+                                            <tr>
+                                                <td colspan="8">Total</td>
+                                                <td>{{x.Amount|intcomma}}</td>
+                                                <td></td>
+                                                <td>{{x.Received_Amount|intcomma}}</td>
+                                                <td>{{x.Total_Collection|intcomma}}</td>
+                                                <td>{{x.Total_dues|intcomma}}</td>
+                                                <td>{{x.Product_return|intcomma}}</td>
+
+                                            </tr>
+                                        {%endfor%}
                                     </table>
                                 </div>
                             </div>

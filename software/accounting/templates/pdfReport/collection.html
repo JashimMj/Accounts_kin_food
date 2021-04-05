@@ -51,7 +51,7 @@ padding:2px;
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-responsive-md">
+                                    <table >
                                         <thead>
                                             <tr class="pdfreport">
                                                 <th style="width:80px;"><strong>#</strong></th>
@@ -92,6 +92,20 @@ padding:2px;
                                             </tr>
 											{%endfor%}
                                         </tbody>
+
+                                        {%for x in Totalsummary%}
+                                            <tr>
+                                               <td colspan="8">Total </td>
+                                                <td>{{x.Amount|intcomma}}</td>
+                                                <td>-</td>
+                                                <td>{{x.Received_Amount|intcomma}}</td>
+                                                <td>{{x.Total_Collection|intcomma}}</td>
+                                                <td>{{x.due|intcomma}}</td>
+                                                <td>{{x.Product_return|intcomma}}</td>
+
+                                            </tr>
+											{%endfor%}
+
                                     </table>
                                 </div>
                             </div>

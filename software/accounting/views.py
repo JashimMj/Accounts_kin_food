@@ -442,8 +442,16 @@ def collectionV(request):
                                     '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(amount-Received_Amount) as due,sum(Product_return) as Product_return  from accounting_entryinfo '
                                     'group by Invoice_no) x '
                                     'on a.Invoice_no =x.Invoice_no',[invoice_date, invoice_edate])
+    Totalsummary=entryinfo.objects.raw('select a.id,a.Invoice_no as Invoice_no,a.Invoice_date as Invoice_date,a.Delivery_Date as Delivery_Date,a.Collection_date as Collection_date,a.Client_Name_id as Client_Name_id,a.Producer_Name_id as Producer_Name_id, sum(x.amount) as Amount,sum(a.Received_Amount) as Received_Amount,sum(x.Received_Amount) as Total_Collection, sum(x.due) as due,sum(x.Product_return) as Product_return  from'
+                                    '( SELECT id,Invoice_no,Invoice_date,Delivery_Date,Collection_date,Client_Name_id,Producer_Name_id,sum(Amount) as amount,sum(Received_Amount) as Received_Amount  from accounting_entryinfo '
+                                    'where Collection_date BETWEEN %s and %s '
+                                    'group by Invoice_no) a '
+                                    'left join '
+                                    '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(amount-Received_Amount) as due,sum(Product_return) as Product_return  from accounting_entryinfo '
+                                    'group by Invoice_no) x '
+                                    'on a.Invoice_no =x.Invoice_no',[invoice_date, invoice_edate])
     template_path = 'pdfReport/collection.html'
-    context = {'entry': entry, 'invoice_date': invoice_date, 'invoice_edate': invoice_edate,'company':company}
+    context = {'entry': entry, 'invoice_date': invoice_date, 'invoice_edate': invoice_edate,'company':company,'Totalsummary':Totalsummary}
     response = HttpResponse(content_type='application/pdf')
     # for downlode
     # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -482,8 +490,17 @@ def DuesV(request):
         '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(Amount)-sum(Received_Amount) as Total_dues,sum(Product_return) as Product_return  from accounting_entryinfo '
         'group by Invoice_no) x '
         'on a.Invoice_no =x.Invoice_no', [a, b])
+    totaldues = entryinfo.objects.raw(
+        'select a.id,a.Invoice_no as Invoice_no,a.Invoice_date as Invoice_date,a.Delivery_Date as Delivery_Date,a.Collection_date as Collection_date,a.Client_Name_id as Client_Name_id,a.Producer_Name_id as Producer_Name_id, sum(x.amount) as Amount,sum(a.Received_Amount) as Received_Amount,sum(x.Received_Amount) as Total_Collection,sum(x.Total_dues) as Total_dues,sum(x.Product_return) as Product_return from'
+        '( SELECT id,Invoice_no,Invoice_date,Delivery_Date,Collection_date,Client_Name_id,Producer_Name_id,sum(Amount) as amount,sum(Received_Amount) as Received_Amount  from accounting_entryinfo '
+        'where Collection_date BETWEEN %s and %s '
+        'group by Invoice_no) a '
+        'left join '
+        '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(Amount)-sum(Received_Amount) as Total_dues,sum(Product_return) as Product_return  from accounting_entryinfo '
+        'group by Invoice_no) x '
+        'on a.Invoice_no =x.Invoice_no', [a, b])
     template_path = 'pdfReport/Duesreport.html'
-    context = {'entry': entry, 'invoice_date': invoice_date, 'invoice_edate': invoice_edate,'company':company}
+    context = {'entry': entry, 'invoice_date': invoice_date, 'invoice_edate': invoice_edate,'company':company,'totaldues':totaldues}
     response = HttpResponse(content_type='application/pdf')
     # for downlode
     # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
