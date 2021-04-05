@@ -134,11 +134,20 @@ def EntrysaveV(request):
         else:
             c = datetime.datetime.strptime(Codate, '%Y-%m-%d')
         ramount = request.POST.get('ramount')
+        if not ramount:
+            ram=0
+        else:
+            ram=ramount
+        pret=request.POST.get('pret')
+        if not pret:
+            pre=0
+        else:
+            pre=pret
 
         abc=clientInformation.objects.get(id=cname)
         abcs=producerinformatio.objects.get(id=pname)
         data = entryinfo(Invoice_no=innumber,Invoice_date=a,Delivery_Date=b,Collection_date=c,
-                                  Client_Name=abc,Producer_Name=abcs,Amount=amount,Received_Amount=ramount)
+                                  Client_Name=abc,Producer_Name=abcs,Amount=amount,Received_Amount=ram,Product_return=pre)
         data.save()
         messages.success(request, 'Data save')
 
@@ -180,6 +189,15 @@ def EntryupdateV(request):
         else:
             c = datetime.datetime.strptime(Codate, '%Y-%m-%d')
         ramount = request.POST.get('ramount')
+        if not ramount:
+            ram = 0
+        else:
+            ram = ramount
+        pret = request.POST.get('pret')
+        if not pret:
+            pre = 0
+        else:
+            pre = pret
         abc = clientInformation.objects.get(id=cname)
         abcs = producerinformatio.objects.get(id=pname)
         entry=entryinfo.objects.get(pk=id)
@@ -190,7 +208,8 @@ def EntryupdateV(request):
         entry.Client_Name=abc
         entry.Producer_Name=abcs
         entry.Amount=amount
-        entry.Received_Amount=ramount
+        entry.Received_Amount=ram
+        entry.Product_return=pre
         entry.save()
         messages.success(request, 'Data Updated')
     return redirect('/Entry/')
@@ -341,7 +360,7 @@ def CreportV(request):
     company=CompanyInfoM.objects.all()
 
     entry = entryinfo.objects.raw('select id,Invoice_no,(amount-Received_Amount) as dues from accounting_entryinfo where Invoice_date between %s  and %s and Client_Name_id=%s',[invoice_date,invoice_edate,client])
-    entrysum = entryinfo.objects.raw('select id,Invoice_no,sum(amount) as amount,sum(Received_Amount) as ra, sum(amount-Received_Amount) as due from accounting_entryinfo where Invoice_date between %s  and %s and Client_Name_id=%s',[invoice_date,invoice_edate,client])
+    entrysum = entryinfo.objects.raw('select id,Invoice_no,sum(amount) as amount,sum(Received_Amount) as ra, sum(amount-Received_Amount) as due, sum(Product_return) as Product_return from accounting_entryinfo where Invoice_date between %s  and %s and Client_Name_id=%s',[invoice_date,invoice_edate,client])
     template_path = 'pdfReport/ClientWisereport.html'
     context = {'entry': entry,'invoice_date':invoice_date,'invoice_edate':invoice_edate,'entrysum':entrysum,'company':company}
     response = HttpResponse(content_type='application/pdf')
@@ -383,8 +402,8 @@ def preportV(request):
     producer = request.POST.get('cname')
     b = datetime.datetime.strptime(invoice_edate, '%Y-%m-%d')
     company=CompanyInfoM.objects.all()
-    entry = entryinfo.objects.raw('select id,* from accounting_entryinfo where Invoice_date between %s  and %s and producer_Name_id=%s',[invoice_date, invoice_edate, producer])
-    entrysum = entryinfo.objects.raw('select id,sum(amount) as amount,sum(Received_Amount) as ra from accounting_entryinfo where Invoice_date between %s  and %s and producer_Name_id=%s',[invoice_date, invoice_edate, producer])
+    entry = entryinfo.objects.raw('select id,*,(amount-Received_Amount) as dues,Product_return from accounting_entryinfo where Invoice_date between %s  and %s and producer_Name_id=%s',[invoice_date, invoice_edate, producer])
+    entrysum = entryinfo.objects.raw('select id,sum(amount) as amount,sum(Received_Amount) as ra, sum(amount-received_amount) as due, sum(Product_return) as Product_return from accounting_entryinfo where Invoice_date between %s  and %s and producer_Name_id=%s',[invoice_date, invoice_edate, producer])
     template_path = 'pdfReport/ProducertWisereport.html'
     context = {'entry': entry, 'invoice_date': invoice_date, 'invoice_edate': invoice_edate,'entrysum':entrysum,'company':company}
     response = HttpResponse(content_type='application/pdf')
@@ -415,12 +434,12 @@ def collectionV(request):
     invoice_date = request.POST.get('idate')
     invoice_edate = request.POST.get('edate')
     company=CompanyInfoM.objects.all()
-    entry = entryinfo.objects.raw('select a.id,a.Invoice_no as Invoice_no,a.Invoice_date as Invoice_date,a.Delivery_Date as Delivery_Date,a.Collection_date as Collection_date,a.Client_Name_id as Client_Name_id,a.Producer_Name_id as Producer_Name_id, x.amount as Amount,a.Received_Amount as Received_Amount,x.Received_Amount as Total_Collection from'
+    entry = entryinfo.objects.raw('select a.id,a.Invoice_no as Invoice_no,a.Invoice_date as Invoice_date,a.Delivery_Date as Delivery_Date,a.Collection_date as Collection_date,a.Client_Name_id as Client_Name_id,a.Producer_Name_id as Producer_Name_id, x.amount as Amount,a.Received_Amount as Received_Amount,x.Received_Amount as Total_Collection, x.due,x.Product_return from'
                                     '( SELECT id,Invoice_no,Invoice_date,Delivery_Date,Collection_date,Client_Name_id,Producer_Name_id,sum(Amount) as amount,sum(Received_Amount) as Received_Amount  from accounting_entryinfo '
                                     'where Collection_date BETWEEN %s and %s '
                                     'group by Invoice_no) a '
                                     'left join '
-                                    '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount  from accounting_entryinfo '
+                                    '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(amount-Received_Amount) as due,sum(Product_return) as Product_return  from accounting_entryinfo '
                                     'group by Invoice_no) x '
                                     'on a.Invoice_no =x.Invoice_no',[invoice_date, invoice_edate])
     template_path = 'pdfReport/collection.html'
@@ -455,12 +474,12 @@ def DuesV(request):
     b=datetime.datetime.strptime(invoice_edate, '%Y-%m-%d')
     company = CompanyInfoM.objects.all()
     entry = entryinfo.objects.raw(
-        'select a.id,a.Invoice_no as Invoice_no,a.Invoice_date as Invoice_date,a.Delivery_Date as Delivery_Date,a.Collection_date as Collection_date,a.Client_Name_id as Client_Name_id,a.Producer_Name_id as Producer_Name_id, x.amount as Amount,a.Received_Amount as Received_Amount,x.Received_Amount as Total_Collection,x.Total_dues as Total_dues from'
+        'select a.id,a.Invoice_no as Invoice_no,a.Invoice_date as Invoice_date,a.Delivery_Date as Delivery_Date,a.Collection_date as Collection_date,a.Client_Name_id as Client_Name_id,a.Producer_Name_id as Producer_Name_id, x.amount as Amount,a.Received_Amount as Received_Amount,x.Received_Amount as Total_Collection,x.Total_dues as Total_dues,x.Product_return from'
         '( SELECT id,Invoice_no,Invoice_date,Delivery_Date,Collection_date,Client_Name_id,Producer_Name_id,sum(Amount) as amount,sum(Received_Amount) as Received_Amount  from accounting_entryinfo '
         'where Collection_date BETWEEN %s and %s '
         'group by Invoice_no) a '
         'left join '
-        '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(Amount)-sum(Received_Amount) as Total_dues  from accounting_entryinfo '
+        '(SELECT Invoice_no,sum(Amount) as amount,sum(Received_Amount) as Received_Amount,sum(Amount)-sum(Received_Amount) as Total_dues,sum(Product_return) as Product_return  from accounting_entryinfo '
         'group by Invoice_no) x '
         'on a.Invoice_no =x.Invoice_no', [a, b])
     template_path = 'pdfReport/Duesreport.html'
@@ -562,11 +581,20 @@ def paymentsave(request):
         else:
             c = datetime.datetime.strptime(Codate, '%Y-%m-%d')
         ramount = request.POST.get('ramount')
+        if not ramount:
+            ram=0
+        else:
+            ram=ramount
+        preturn=request.POST.get('preturn')
+        if not preturn:
+            pret=0
+        else:
+            pret=preturn
 
         abc = clientInformation.objects.get(id=cname)
         abcs = producerinformatio.objects.get(id=pname)
         data = entryinfo(Invoice_no=innumber, Invoice_date=a, Delivery_Date=b, Collection_date=c,
-                         Client_Name=abc, Producer_Name=abcs,Amount=0, Received_Amount=ramount)
+                         Client_Name=abc, Producer_Name=abcs,Amount=0, Received_Amount=ram,Product_return=pret)
         data.save()
         messages.success(request, 'Data save')
     return redirect('/part/payment/')

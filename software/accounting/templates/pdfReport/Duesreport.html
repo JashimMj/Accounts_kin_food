@@ -67,6 +67,7 @@ padding:2px;
                                                 <th><strong>Received Amount</strong></th>
                                                 <th><strong>Total Collection</strong></th>
                                                 <th><strong>Total Dues Amount</strong></th>
+                                                <th><strong>Total Return Amount</strong></th>
 
                                             </tr>
                                         </thead>
@@ -86,6 +87,7 @@ padding:2px;
                                                 <td>{{x.Received_Amount|intcomma}}</td>
                                                 <td>{{x.Total_Collection|intcomma}}</td>
                                                 <td>{{x.Total_dues|intcomma}}</td>
+                                                <td>{{x.Product_return|intcomma}}</td>
 
                                             </tr>
 											{%endfor%}

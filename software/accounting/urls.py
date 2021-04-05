@@ -82,6 +82,8 @@ urlpatterns = [
                   #########################
     path('Dues/Report/', views.DuesReportV, name='DuesReport'),
     path('Due/', views.DuesV, name='Dues'),
+
+
     path('Loging/', views.LogingV, name='Loging'),
     path('Logout/', views.logoutV, name='logout'),
     path('Singup/', views.SingupV, name='Singup'),

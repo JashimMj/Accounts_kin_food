@@ -45,6 +45,7 @@ class entryinfo(models.Model):
     Producer_Name = models.ForeignKey(producerinformatio,on_delete=models.CASCADE,null=True,blank=True)
     Amount=models.IntegerField(blank=True, null=True,default=0)
     Received_Amount=models.IntegerField(blank=True, null=True,default=0)
+    Product_return=models.IntegerField(blank=True, null=True,default=0)
     objects = models.Manager()
 
 
