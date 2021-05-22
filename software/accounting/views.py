@@ -573,8 +573,8 @@ def partpayment(request):
         call=entryinfo.objects.raw('SELECT DISTINCT id,* from accounting_entryinfo'
                                     ' WHERE Invoice_no = %s '
                                     'group by Invoice_no',[inv])
-        return render(request,'accounts/partpayment.html',{'call':call})
-    return render(request, 'accounts/partpayment.html')
+        return render(request,'accounts/Partpayment.html',{'call':call})
+    return render(request, 'accounts/Partpayment.html')
 
 def paymentsave(request):
     if request.method == 'POST':
